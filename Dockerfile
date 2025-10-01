@@ -1,17 +1,19 @@
-# Lavalink Dockerfile for Render/Railway/Heroku etc
-FROM openjdk:17-jdk-alpine
+# Dockerfile for Lavalink + Spotify Plugin (no external download)
 
-RUN apk add --no-cache curl
+FROM openjdk:17-jdk-alpine
 
 WORKDIR /opt/lavalink
 
-# Replace this with the latest Lavalink.jar version as needed
-ADD https://github.com/freyacodes/Lavalink/releases/download/4.0.6.1/Lavalink.jar Lavalink.jar
+# Copy your manually downloaded Lavalink.jar (must match correct path!)
+COPY Lavalink.jar Lavalink.jar
 
-COPY application.yml .
+# Copy your application.yml for config/environment (must match correct path!)
+COPY application.yml application.yml
 
+# Expose the Lavalink port (default 2333; or use $PORT from env)
 EXPOSE 2333
 
 ENV _JAVA_OPTIONS="-Xmx512m"
 
+# Launch Lavalink on container start
 CMD ["java", "-jar", "Lavalink.jar"]
