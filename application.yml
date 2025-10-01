@@ -12,7 +12,11 @@ lavalink:
       soundcloud: true      # Agar zarurat ho
       bandcamp: true        # Agar zarurat ho
       twitch: true          # Live streams
+<<<<<<< HEAD
       vimeo: true           # Vimeo videos
+=======
+      vimeo: false           # Vimeo videos
+>>>>>>> 69846a5 (some update)
       http: true            # Generic HTTP audio sources
       local: false
 
@@ -42,4 +46,8 @@ logging:
 # Advanced optional settings for speed & stability
 playerUpdateInterval: 50       # smaller = more frequent updates
 ytSearchPageCount: 1           # faster YouTube search, reduce pages scanned
+<<<<<<< HEAD
 outputBufferDurationMs: 4000
+=======
+outputBufferDurationMs: 4000
+>>>>>>> 69846a5 (some update)
