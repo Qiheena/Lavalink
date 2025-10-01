@@ -1,22 +1,19 @@
-# Dockerfile for Lavalink + Spotify Plugin (no external download)
-
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17-slim
 
 WORKDIR /opt/lavalink
 
-# Install native dependencies for UDP queue / libgcc
-RUN apk add --no-cache libgcc libc6-compat
+# Install native dependencies for Lavalink
+RUN apt-get update && apt-get install -y \
+    libgcc1 \
+    libstdc++6 \
+    curl \
+    bash \
+ && rm -rf /var/lib/apt/lists/*
 
-# Copy your manually downloaded Lavalink.jar (must match correct path!)
-COPY Lavalink.jar Lavalink.jar
+COPY Lavalink.jar ./Lavalink.jar
+COPY application.yml ./application.yml
 
-# Copy your application.yml for config/environment (must match correct path!)
-COPY application.yml application.yml
-
-# Expose the Lavalink port (default 2333; or use $PORT from env)
 EXPOSE 2333
-
 ENV _JAVA_OPTIONS="-Xmx512m"
 
-# Launch Lavalink on container start
 CMD ["java", "-jar", "Lavalink.jar"]
