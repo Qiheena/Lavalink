@@ -4,6 +4,9 @@ FROM openjdk:17-jdk-alpine
 
 WORKDIR /opt/lavalink
 
+# Install native dependencies for UDP queue / libgcc
+RUN apk add --no-cache libgcc libc6-compat
+
 # Copy your manually downloaded Lavalink.jar (must match correct path!)
 COPY Lavalink.jar Lavalink.jar
 
