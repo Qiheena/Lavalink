@@ -6,7 +6,7 @@ lavalink:
   server:
     password: ${LAVALINK_PASSWORD}
     sources:
-      youtube: false        # YouTube disable
+      youtube: true        # YouTube playback enabled!
       soundcloud: false
       bandcamp: false
       twitch: false
