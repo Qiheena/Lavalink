@@ -1,18 +1,27 @@
 server:
-  port: ${PORT:2333}
+  port: ${PORT:2333}       # Render automatically sets $PORT
   address: 0.0.0.0
 
 lavalink:
   server:
     password: ${LAVALINK_PASSWORD}
     sources:
-      youtube: true        # YouTube playback enabled!
-      soundcloud: false
-      bandcamp: false
-      twitch: false
-      vimeo: false
-      http: true
+      youtube:
+        enabled: true
+        cookies: "application/cookies.txt"   # YouTube search/play ke liye
+      soundcloud: true      # Agar zarurat ho
+      bandcamp: true        # Agar zarurat ho
+      twitch: true          # Live streams
+      vimeo: true           # Vimeo videos
+      http: true            # Generic HTTP audio sources
       local: false
+
+    # Performance tuning
+    bufferDurationMs: 4000       # low latency audio buffering
+    frameBufferDurationMs: 1000  # smaller buffer for smoother streaming
+    resumeDelay: 5000             # for resumable sessions
+    maxPlayers: 50                # adjust based on bot load
+    ratelimitTracks: 100          # concurrent track limit
 
 plugins:
   - class: "com.github.topi314.lavalink.plugins.spotify.SpotifyPlugin"
@@ -20,3 +29,17 @@ plugins:
       clientId: ${SPOTIFY_CLIENT_ID}
       clientSecret: ${SPOTIFY_CLIENT_SECRET}
       market: IN
+
+metrics:
+  prometheus:
+    enabled: true       # optional monitoring for advanced stats
+    endpoint: /metrics
+
+logging:
+  level: INFO           # DEBUG for development
+  file: false           # false = logs go to console
+
+# Advanced optional settings for speed & stability
+playerUpdateInterval: 50       # smaller = more frequent updates
+ytSearchPageCount: 1           # faster YouTube search, reduce pages scanned
+outputBufferDurationMs: 4000
