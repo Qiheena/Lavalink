@@ -1,0 +1,22 @@
+server:
+  port: ${PORT:2333}
+  address: 0.0.0.0
+
+lavalink:
+  server:
+    password: ${LAVALINK_PASSWORD}
+    sources:
+      youtube: false        # YouTube disable
+      soundcloud: false
+      bandcamp: false
+      twitch: false
+      vimeo: false
+      http: true
+      local: false
+
+plugins:
+  - class: "com.github.topi314.lavalink.plugins.spotify.SpotifyPlugin"
+    options:
+      clientId: ${SPOTIFY_CLIENT_ID}
+      clientSecret: ${SPOTIFY_CLIENT_SECRET}
+      market: IN
