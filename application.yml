@@ -12,11 +12,8 @@ lavalink:
       soundcloud: true      # Agar zarurat ho
       bandcamp: true        # Agar zarurat ho
       twitch: true          # Live streams
-<<<<<<< HEAD
       vimeo: true           # Vimeo videos
-=======
       vimeo: false           # Vimeo videos
->>>>>>> 69846a5 (some update)
       http: true            # Generic HTTP audio sources
       local: false
 
