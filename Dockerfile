@@ -1,7 +1,7 @@
 # Base image
 FROM openjdk:17-slim
 
-# Working directory
+# Set working directory
 WORKDIR /opt/lavalink
 
 # Install native dependencies
@@ -16,20 +16,21 @@ RUN apt-get update && apt-get install -y \
 COPY Lavalink.jar ./Lavalink.jar
 COPY application.yml ./application.yml
 
-# Copy YouTube cookies
-COPY application/cookies.txt ./application/cookies.txt
+# Copy YouTube cookies if present
+# (Safe even if file missing)
+RUN mkdir -p application
+COPY application/cookies.txt ./application/cookies.txt 2>/dev/null || true
 
-# Optional: plugins folder (Spotify etc.)
-COPY plugins/ ./plugins/
-#=======
-#COPY plugins/ ./plugins/
-#>>>>>>> 69846a5 (some update)
+# Optional: Copy plugins folder if it exists
+# (Prevents error if folder not found)
+RUN mkdir -p plugins
+COPY plugins/ ./plugins/ 2>/dev/null || true
 
-# Expose default Lavalink port
+# Expose Lavalink default port
 EXPOSE 2333
 
-# JVM memory limit (adjust if needed)
+# Set JVM memory limit (adjust if needed)
 ENV _JAVA_OPTIONS="-Xmx512m"
 
-# Launch Lavalink
+# Start Lavalink
 CMD ["java", "-jar", "Lavalink.jar"]
