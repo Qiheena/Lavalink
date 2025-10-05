@@ -12,17 +12,17 @@ lavalink:
       soundcloud: true      # Agar zarurat ho
       bandcamp: true        # Agar zarurat ho
       twitch: true          # Live streams
-      vimeo: true           # Vimeo videos
-      vimeo: false           # Vimeo videos
+      vimeo: false          # Vimeo videos disabled
       http: true            # Generic HTTP audio sources
       local: false
 
     # Performance tuning
-    bufferDurationMs: 4000       # low latency audio buffering
-    frameBufferDurationMs: 1000  # smaller buffer for smoother streaming
+    bufferDurationMs: 4000        # low latency audio buffering
+    frameBufferDurationMs: 1000   # smaller buffer for smoother streaming
     resumeDelay: 5000             # for resumable sessions
     maxPlayers: 50                # adjust based on bot load
     ratelimitTracks: 100          # concurrent track limit
+    outputBufferDurationMs: 4000  # ✅ moved inside lavalink.server (no duplication)
 
 plugins:
   - class: "com.github.topi314.lavalink.plugins.spotify.SpotifyPlugin"
@@ -33,16 +33,13 @@ plugins:
 
 metrics:
   prometheus:
-    enabled: true       # optional monitoring for advanced stats
+    enabled: true
     endpoint: /metrics
 
 logging:
-  level: INFO           # DEBUG for development
-  file: false           # false = logs go to console
+  level: INFO
+  file: false
 
 # Advanced optional settings for speed & stability
 playerUpdateInterval: 50       # smaller = more frequent updates
 ytSearchPageCount: 1           # faster YouTube search, reduce pages scanned
-
-outputBufferDurationMs: 4000
-
