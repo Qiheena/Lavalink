@@ -43,8 +43,7 @@ logging:
 # Advanced optional settings for speed & stability
 playerUpdateInterval: 50       # smaller = more frequent updates
 ytSearchPageCount: 1           # faster YouTube search, reduce pages scanned
-<<<<<<< HEAD
+
 outputBufferDurationMs: 4000
-=======
+
 outputBufferDurationMs: 4000
->>>>>>> 69846a5 (some update)
