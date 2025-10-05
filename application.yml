@@ -9,20 +9,20 @@ lavalink:
       youtube:
         enabled: true
         cookies: "application/cookies.txt"   # YouTube search/play ke liye
-      soundcloud: true      # Agar zarurat ho
-      bandcamp: true        # Agar zarurat ho
-      twitch: true          # Live streams
-      vimeo: false          # Vimeo videos disabled
-      http: true            # Generic HTTP audio sources
+      soundcloud: true
+      bandcamp: true
+      twitch: true
+      vimeo: false
+      http: true
       local: false
 
     # Performance tuning
-    bufferDurationMs: 4000        # low latency audio buffering
-    frameBufferDurationMs: 1000   # smaller buffer for smoother streaming
-    resumeDelay: 5000             # for resumable sessions
-    maxPlayers: 50                # adjust based on bot load
-    ratelimitTracks: 100          # concurrent track limit
-    outputBufferDurationMs: 4000  # ✅ moved inside lavalink.server (no duplication)
+    bufferDurationMs: 4000
+    frameBufferDurationMs: 1000
+    resumeDelay: 5000
+    maxPlayers: 50
+    ratelimitTracks: 100
+    outputBufferDurationMs: 4000
 
 plugins:
   - class: "com.github.topi314.lavalink.plugins.spotify.SpotifyPlugin"
@@ -37,9 +37,10 @@ metrics:
     endpoint: /metrics
 
 logging:
-  level: INFO
+  level:
+    root: INFO      # ✅ FIXED
   file: false
 
 # Advanced optional settings for speed & stability
-playerUpdateInterval: 50       # smaller = more frequent updates
-ytSearchPageCount: 1           # faster YouTube search, reduce pages scanned
+playerUpdateInterval: 50
+ytSearchPageCount: 1
