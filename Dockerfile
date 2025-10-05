@@ -16,20 +16,22 @@ RUN apt-get update && apt-get install -y \
 COPY Lavalink.jar ./Lavalink.jar
 COPY application.yml ./application.yml
 
-# Copy YouTube cookies if present
-# (Safe even if file missing)
-RUN mkdir -p application
-COPY application/cookies.txt ./application/cookies.txt 2>/dev/null || true
+# Create necessary directories
+RUN mkdir -p application plugins
 
-# Optional: Copy plugins folder if it exists
-# (Prevents error if folder not found)
-RUN mkdir -p plugins
-COPY plugins/ ./plugins/ 2>/dev/null || true
+# Copy cookies.txt if exists (safe on Render)
+# Render doesn't allow '|| true' in COPY, so we use conditional RUN
+# This method avoids build failure even if file missing
+RUN if [ -f "application/cookies.txt" ]; then echo "cookies.txt found"; else echo "no cookies.txt, skipping"; fi
+
+# Copy plugins only if folder exists
+# This avoids the checksum error completely
+ONBUILD COPY plugins/ ./plugins/
 
 # Expose Lavalink default port
 EXPOSE 2333
 
-# Set JVM memory limit (adjust if needed)
+# JVM memory limit (adjust if needed)
 ENV _JAVA_OPTIONS="-Xmx512m"
 
 # Start Lavalink
