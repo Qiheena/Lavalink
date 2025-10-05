@@ -20,7 +20,6 @@ COPY application.yml ./application.yml
 COPY application/cookies.txt ./application/cookies.txt
 
 # Optional: plugins folder (Spotify etc.)
-<<<<<<< HEAD
 COPY plugins/ ./plugins/
 #=======
 #COPY plugins/ ./plugins/
@@ -33,8 +32,4 @@ EXPOSE 2333
 ENV _JAVA_OPTIONS="-Xmx512m"
 
 # Launch Lavalink
-<<<<<<< HEAD
 CMD ["java", "-jar", "Lavalink.jar"]
-=======
-CMD ["java", "-jar", "Lavalink.jar"]
->>>>>>> 69846a5 (some update)
