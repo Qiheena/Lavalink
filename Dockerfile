@@ -1,38 +1,44 @@
-# Base image
-FROM openjdk:17-slim
+#[file name]: Dockerfile
+#[file content begin]
+# Base image - optimized for Railway
+FROM eclipse-temurin:17-jre-alpine
 
 # Set working directory
 WORKDIR /opt/lavalink
 
 # Install native dependencies
-RUN apt-get update && apt-get install -y \
-    libgcc1 \
-    libstdc++6 \
+RUN apk update && apk add --no-cache \
+    libstdc++ \
     curl \
     bash \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/cache/apk/*
 
-# Copy Lavalink jar and config
-COPY Lavalink.jar ./Lavalink.jar
+# Download Lavalink 3.7.9 (stable version)
+RUN curl -L -o Lavalink.jar \
+    https://github.com/lavalink-devs/Lavalink/releases/download/3.7.9/Lavalink.jar
+
+# Copy configuration
 COPY application.yml ./application.yml
 
 # Create necessary directories
-RUN mkdir -p application plugins
+RUN mkdir -p application plugins logs
 
-# Copy cookies.txt if exists (safe on Render)
-# Render doesn't allow '|| true' in COPY, so we use conditional RUN
-# This method avoids build failure even if file missing
-RUN if [ -f "application/cookies.txt" ]; then echo "cookies.txt found"; else echo "no cookies.txt, skipping"; fi
+# Create empty cookies.txt
+RUN touch application/cookies.txt
 
-# Copy plugins only if folder exists
-# This avoids the checksum error completely
-ONBUILD COPY plugins/ ./plugins/
+# Copy plugins if they exist
+COPY plugins/ ./plugins/ 2>/dev/null || echo "No plugins directory"
 
-# Expose Lavalink default port
+# Health check for Railway
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:2333/ || exit 1
+
+# Expose port (Railway automatically handles port mapping)
 EXPOSE 2333
 
-# JVM memory limit (adjust if needed)
-ENV _JAVA_OPTIONS="-Xmx512m"
+# JVM memory optimization for Railway
+ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseG1GC -XX:MaxGCPauseMillis=50"
+ENV _JAVA_OPTIONS="$JAVA_OPTS"
 
 # Start Lavalink
 CMD ["java", "-jar", "Lavalink.jar"]
