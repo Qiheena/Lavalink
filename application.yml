@@ -1,46 +1,29 @@
+# application.yml - optimized for free tier
 server:
-  port: ${PORT:2333}       # Render automatically sets $PORT
+  port: ${PORT:2333}
   address: 0.0.0.0
 
 lavalink:
   server:
-    password: ${LAVALINK_PASSWORD}
+    password: "${LAVALINK_PASSWORD:youshallnotpass}"
     sources:
-      youtube:
-        enabled: true
-        cookies: "application/cookies.txt"   # YouTube search/play ke liye
-      soundcloud: true
+      youtube: true
       bandcamp: true
+      soundcloud: true
       twitch: true
       vimeo: false
       http: true
-      local: false
+    bufferDurationMs: 1000  # Reduce for free tier
+    frameBufferDurationMs: 2000
+    youtubeConfig:
+      enabled: true
+      retryOnFailure: true
 
-    # Performance tuning
-    bufferDurationMs: 4000
-    frameBufferDurationMs: 1000
-    resumeDelay: 5000
-    maxPlayers: 50
-    ratelimitTracks: 100
-    outputBufferDurationMs: 4000
+sentry:
+  dsn: ""
+  environment: ""
 
 plugins:
-  - class: "com.github.topi314.lavalink.plugins.spotify.SpotifyPlugin"
-    options:
-      clientId: ${SPOTIFY_CLIENT_ID}
-      clientSecret: ${SPOTIFY_CLIENT_SECRET}
-      market: IN
-
-metrics:
-  prometheus:
+  youtube:
     enabled: true
-    endpoint: /metrics
-
-logging:
-  level:
-    root: INFO      # ✅ FIXED
-  file: false
-
-# Advanced optional settings for speed & stability
-playerUpdateInterval: 50
-ytSearchPageCount: 1
+    # Remove cookies requirement for now
