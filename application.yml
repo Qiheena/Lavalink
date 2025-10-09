@@ -1,6 +1,6 @@
 # application.yml - optimized for free tier
 server:
-  port: ${PORT:2333}
+  port: ${PORT:8080}
   address: 0.0.0.0
 
 lavalink:
