@@ -1,5 +1,4 @@
-#[file name]: Dockerfile
-#[file content begin]
+
 # Base image - optimized for Railway
 FROM eclipse-temurin:17-jre-alpine
 
@@ -26,14 +25,14 @@ RUN mkdir -p application plugins logs
 # Create empty cookies.txt
 RUN touch application/cookies.txt
 
-# Copy plugins if they exist
-COPY plugins/ ./plugins/ 2>/dev/null || echo "No plugins directory"
+# SIMPLE FIX: Remove conditional COPY, just create plugins directory
+RUN mkdir -p plugins
 
 # Health check for Railway
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD curl -f http://localhost:2333/ || exit 1
 
-# Expose port (Railway automatically handles port mapping)
+# Expose port
 EXPOSE 2333
 
 # JVM memory optimization for Railway
